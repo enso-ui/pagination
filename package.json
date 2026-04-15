@@ -18,6 +18,9 @@
     "url": "https://github.com/enso-ui/pagination/issues"
   },
   "homepage": "https://github.com/enso-ui/pagination#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
