@@ -1,0 +1,32 @@
+{
+  "name": "@enso-ui/pagination",
+  "version": "1.0.0",
+  "description": "Pagination components for Enso UI",
+  "main": "bulma/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enso-ui/pagination.git"
+  },
+  "keywords": [
+    "pagination",
+    "bulma",
+    "vue"
+  ],
+  "author": "Adrian Ocneanu <aocneanu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enso-ui/pagination/issues"
+  },
+  "homepage": "https://github.com/enso-ui/pagination#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "bulma": "^1.0.4",
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "bulma": "^1.0.4",
+    "vue": "^3.5.0"
+  }
+}
