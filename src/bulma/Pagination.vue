@@ -1,56 +1,70 @@
 <template>
-    <nav class="pagination is-small is-centered mt-4"
-        role="navigation"
-        aria-label="pagination"
-        v-if="totalPages > 1">
-        <a class="pagination-previous"
-            :disabled="page === 1 || loading || null"
-            @click="jumpTo(page - 1)">
-            {{ i18n('Previous') }}
-        </a>
-        <a class="pagination-next"
-            :disabled="page === totalPages || loading || null"
-            @click="jumpTo(page + 1)">
-            {{ i18n('Next') }}
-        </a>
-        <ul class="pagination-list">
-            <li>
-                <a class="pagination-link"
-                    :class="{ 'is-current': page === 1 }"
-                    :disabled="loading || null"
-                    @click="jumpTo(1)">
-                    1
-                </a>
-            </li>
-            <li v-if="totalPages > 5 && !atStart">
-                <span class="pagination-ellipsis">
-                    &hellip;
-                </span>
-            </li>
-            <li v-for="middlePage in middlePages"
-                :key="middlePage">
-                <a class="pagination-link"
-                    :class="{ 'is-current': page === middlePage }"
-                    :disabled="loading || null"
-                    @click="jumpTo(middlePage)">
-                    {{ middlePage }}
-                </a>
-            </li>
-            <li v-if="totalPages > 5 && !atEnd">
-                <span class="pagination-ellipsis">
-                    &hellip;
-                </span>
-            </li>
-            <li v-if="totalPages > 1">
-                <a class="pagination-link"
-                    :class="{ 'is-current': page === totalPages }"
-                    :disabled="loading || null"
-                    @click="jumpTo(totalPages)">
-                    {{ totalPages }}
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <div class="pagination-controls mt-4"
+        v-if="length > 0">
+        <slot name="info"
+            :from="from"
+            :page="page"
+            :page-size="pageSize"
+            :to="to"
+            :total="length"
+            :total-pages="totalPages">
+            <p class="pagination-info">
+                {{ i18n('From') }} {{ from }} {{ i18n('to') }} {{ to }} {{ i18n('of') }} {{ length }}
+            </p>
+        </slot>
+        <nav class="pagination is-small"
+            role="navigation"
+            aria-label="pagination"
+            v-if="totalPages > 1">
+            <ul class="pagination-list">
+                <li>
+                    <a class="pagination-link"
+                        :class="{ 'is-current': page === 1 }"
+                        :disabled="loading || null"
+                        @click="jumpTo(1)">
+                        1
+                    </a>
+                </li>
+                <li v-if="totalPages > 5 && !atStart">
+                    <span class="pagination-ellipsis">
+                        &hellip;
+                    </span>
+                </li>
+                <li v-for="middlePage in middlePages"
+                    :key="middlePage">
+                    <a class="pagination-link"
+                        :class="{ 'is-current': page === middlePage }"
+                        :disabled="loading || null"
+                        @click="jumpTo(middlePage)">
+                        {{ middlePage }}
+                    </a>
+                </li>
+                <li v-if="totalPages > 5 && !atEnd">
+                    <span class="pagination-ellipsis">
+                        &hellip;
+                    </span>
+                </li>
+                <li v-if="totalPages > 1">
+                    <a class="pagination-link"
+                        :class="{ 'is-current': page === totalPages }"
+                        :disabled="loading || null"
+                        @click="jumpTo(totalPages)">
+                        {{ totalPages }}
+                    </a>
+                </li>
+            </ul>
+            <a class="pagination-previous"
+                :disabled="page === 1 || loading || null"
+                @click="jumpTo(page - 1)">
+                {{ i18n('Previous') }}
+            </a>
+            <a class="pagination-next"
+                :disabled="page === totalPages || loading || null"
+                @click="jumpTo(page + 1)">
+                {{ i18n('Next') }}
+            </a>
+        </nav>
+    </div>
 </template>
 
 <script setup>
@@ -61,8 +75,8 @@ const props = defineProps({
         type: Function,
         default: value => value,
     },
-    list: {
-        type: Array,
+    length: {
+        type: Number,
         required: true,
     },
     loading: {
@@ -82,9 +96,11 @@ const props = defineProps({
 const emit = defineEmits(['page-changed']);
 
 const totalPages = computed(() => Math.max(
-    Math.ceil(props.list.length / props.pageSize),
+    Math.ceil(props.length / props.pageSize),
     1,
 ));
+const from = computed(() => (props.length === 0 ? 0 : ((props.page - 1) * props.pageSize) + 1));
+const to = computed(() => Math.min(props.page * props.pageSize, props.length));
 
 const atStart = computed(() => props.page <= 3);
 const atEnd = computed(() => props.page >= totalPages.value - 2);
@@ -123,3 +139,22 @@ const jumpTo = page => {
     }
 };
 </script>
+
+<style scoped>
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.pagination-controls :deep(.pagination) {
+    margin-top: 0;
+    justify-content: flex-end;
+}
+
+.pagination-info {
+    color: var(--bulma-text-weak);
+    font-size: var(--bulma-size-small);
+}
+</style>
