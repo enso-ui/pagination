@@ -1,6 +1,6 @@
 {
   "name": "@enso-ui/pagination",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pagination components for Enso UI",
   "main": "bulma/index.js",
   "repository": {
