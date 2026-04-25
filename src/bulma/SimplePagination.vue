@@ -1,6 +1,8 @@
 <template>
-    <div class="simple-pagination-controls mt-4"
-        v-if="hasResults">
+    <nav v-if="hasResults"
+        class="simple-pagination-wrapper pagination"
+        role="navigation"
+        aria-label="pagination">
         <slot name="info"
             :from="from"
             :page="page"
@@ -8,14 +10,12 @@
             :to="displayTo"
             :total="displayTotal"
             :total-pages="totalPages">
-            <p class="simple-pagination-info">
+            <p class="pagination-info">
                 {{ i18n('From') }} {{ from }} {{ i18n('to') }} {{ displayTo }} {{ i18n('of') }} {{ displayTotal }} {{ i18n('entries') }}
             </p>
         </slot>
-        <nav class="pagination is-small"
-            role="navigation"
-            aria-label="pagination"
-            v-if="showControls">
+        <div v-if="showControls"
+            class="pagination-controls">
             <a class="pagination-previous"
                 :disabled="page === 1 || loading || null"
                 @click="jumpTo(page - 1)">
@@ -26,8 +26,8 @@
                 @click="jumpTo(page + 1)">
                 {{ i18n('Next') }}
             </a>
-        </nav>
-    </div>
+        </div>
+    </nav>
 </template>
 
 <script setup>
@@ -90,21 +90,22 @@ const jumpTo = page => {
 };
 </script>
 
-<style scoped>
-.simple-pagination-controls {
+<style lang="scss">
+.simple-pagination-wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 1rem;
-}
 
-.simple-pagination-controls :deep(.pagination) {
-    margin-top: 0;
-    justify-content: flex-end;
-}
+    .simple-pagination-info {
+        margin-inline-end: auto;
+        color: var(--bulma-text-weak);
+    }
 
-.simple-pagination-info {
-    color: var(--bulma-text-weak);
-    font-size: var(--bulma-size-small);
+    .pagination-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
 }
 </style>

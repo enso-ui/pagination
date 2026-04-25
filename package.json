@@ -1,6 +1,6 @@
 {
   "name": "@enso-ui/pagination",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pagination components for Enso UI",
   "main": "bulma/index.js",
   "repository": {
@@ -34,6 +34,7 @@
     "@vue/test-utils": "^2.4.6",
     "bulma": "^1.0.4",
     "jsdom": "^26.1.0",
+    "sass-embedded": "^1.99.0",
     "vitest": "^3.2.4",
     "vue": "^3.5.0"
   }
